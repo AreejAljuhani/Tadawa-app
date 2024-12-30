@@ -40,31 +40,6 @@ class _AuthScreenState extends State<AuthScreen> {
 
     _form.currentState!.save();
 
-    if (!_isLogin) {
-      try {
-        final querySnapshot = await FirebaseFirestore.instance
-            .collection('users')
-            .where('username', isEqualTo: _enteredUsername.trim())
-            .get();
-
-        if (querySnapshot.docs.isNotEmpty) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Username already taken. Please choose another.'),
-            ),
-          );
-          return;
-        }
-      } catch (error) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Failed to check username: $error'),
-          ),
-        );
-        return;
-      }
-    }
-
     try {
       setState(() {
         _isAuthenticating = true;
